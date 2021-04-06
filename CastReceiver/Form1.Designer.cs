@@ -29,7 +29,6 @@ namespace CastReceiver
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pb = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
             this.SuspendLayout();
@@ -37,10 +36,9 @@ namespace CastReceiver
             // pb
             // 
             this.pb.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pb.Image = ((System.Drawing.Image)(resources.GetObject("pb.Image")));
             this.pb.Location = new System.Drawing.Point(0, 0);
             this.pb.Name = "pb";
-            this.pb.Size = new System.Drawing.Size(958, 564);
+            this.pb.Size = new System.Drawing.Size(820, 564);
             this.pb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb.TabIndex = 0;
             this.pb.TabStop = false;
@@ -49,7 +47,7 @@ namespace CastReceiver
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(958, 564);
+            this.ClientSize = new System.Drawing.Size(820, 564);
             this.Controls.Add(this.pb);
             this.Name = "Form1";
             this.Text = "Form1";

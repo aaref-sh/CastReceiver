@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CastReceiver
@@ -24,7 +20,7 @@ namespace CastReceiver
         async void ConfigSignalRConnection()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5000/CastHub")
+                .WithUrl("http://192.168.1.111:5000/CastHub")
                 .WithAutomaticReconnect()
                 .Build();
             connection.On<string, int, int>("UpdateScreen", UpdateScreen);
@@ -32,15 +28,25 @@ namespace CastReceiver
             await connection.InvokeAsync("AddToGroup", "main");
         }
         Bitmap pic = null;
-        void UpdateScreen(string base64,int r,int c)
+        int x = 6, y = 5;
+        void UpdateScreen(string base64, int r, int c)
         {
-            Image img = Image.FromStream(new MemoryStream(Convert.FromBase64String(base64)));
-            if(pic.Width/6 != img.Width || pic.Height/5 != img.Height)
-                pic = new Bitmap(img.Width*6, img.Height*5);
-            Rectangle re = new Rectangle(new Point(0,0), new Size(img.Width, img.Height));
+            Image img = Image.FromStream(new MemoryStream(Convert.FromBase64String(decoded(base64))));
+            if (pic.Width / x != img.Width || pic.Height / y != img.Height)
+                pic = new Bitmap(img.Width * x, img.Height * y);
+            Rectangle re = new Rectangle(new Point(0, 0), new Size(img.Width, img.Height));
             using (Graphics g = Graphics.FromImage(pic))
-                g.DrawImage(img, c*img.Width, r*img.Height, re, GraphicsUnit.Pixel);
-            pb.Image = (Image) pic;
+                g.DrawImage(img, c * img.Width, r * img.Height, re, GraphicsUnit.Pixel);
+            pb.Image = (Image)pic;
+        }
+        string pass = "mainmain";
+        string decoded(string s)
+        {
+            //return s;
+            var result = new StringBuilder();
+            for (int c = 0; c < s.Length; c++)
+                result.Append((char)((uint)s[c] ^ (uint)pass[c % pass.Length]));
+            return result.ToString();
         }
     }
 }
