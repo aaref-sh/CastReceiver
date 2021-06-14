@@ -12,7 +12,7 @@ namespace CastReceiver
 {
     public partial class logger : Form
     {
-        public static string group;
+        public static string room_name;
         public static string name;
         public logger()
         {

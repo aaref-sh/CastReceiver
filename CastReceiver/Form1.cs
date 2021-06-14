@@ -20,10 +20,10 @@ namespace CastReceiver
         StreamClient sc;
         int port;
         string group;
+        static string pass;
         public Form1()
         {
             InitializeComponent();
-            group = logger.group;
             pic = new Bitmap(1, 1);
             ConfigSignalRConnection();
             FormClosing += (sender, e) => sc.ConnectToServer();
@@ -38,6 +38,7 @@ namespace CastReceiver
             connection.On<string, string>("newMessage", NewMessage);
             await connection.StartAsync();
             await connection.InvokeAsync("SetName", logger.name);
+            group = pass = await connection.InvokeAsync<string>("GetGroupId", logger.room_name);
             await connection.InvokeAsync("AddToGroup", group);
             port = await connection.InvokeAsync<int>("getport", group);
             await connection.InvokeAsync("getscreen");
@@ -64,7 +65,6 @@ namespace CastReceiver
                 pb.Image = pic;
             }
         }
-        static string pass = "mainmain";
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
