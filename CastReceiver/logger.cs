@@ -20,14 +20,18 @@ namespace CastReceiver
         }
         void get_sessions()
         {
-            using (WebClient client = new WebClient())
+            try
             {
-                byte[] response = client.UploadValues("http://192.168.1.111:5000/api/Rooms/get_rooms", new NameValueCollection() { });
-                string result = Encoding.UTF8.GetString(response);
-                SessionList = Json.Decode<List<string>>(result);
+                using (WebClient client = new WebClient())
+                {
+                    byte[] response = client.UploadValues("http://192.168.1.111:5000/api/Rooms/get_rooms", new NameValueCollection() { });
+                    string result = Encoding.UTF8.GetString(response);
+                    SessionList = Json.Decode<List<string>>(result);
+                }
+                session_list.Items.Clear();
+                foreach (var session in SessionList) session_list.Items.Add(session);
             }
-            session_list.Items.Clear();
-            foreach (var session in SessionList) session_list.Items.Add(session);
+            catch {  MessageBox.Show("لا يمكن الوصول للخادم"); }
         }
         List<string> SessionList;
 
