@@ -12,19 +12,18 @@ namespace CastReceiver
 {
     public partial class Form1 : Form
     {
-        HubConnection connection;
+        public static HubConnection connection;
         Bitmap pic = null;
         int x = 10, y = 10;
-        bool mic_muted = false;
-        bool speaker_muted = false;
-        StreamClient sc;
+        public static StreamClient sc;
         int port;
         string group;
-        static string pass;
+        public static string pass,myname;
         public Form1()
         {
             InitializeComponent();
             pic = new Bitmap(1, 1);
+            myname = logger.name;
             ConfigSignalRConnection();
             FormClosing += (sender, e) => sc.ConnectToServer();
         }
@@ -35,9 +34,9 @@ namespace CastReceiver
                 .WithAutomaticReconnect()
                 .Build();
             connection.On<string, int, int, bool, int, int>("UpdateScreen", UpdateScreen);
-            connection.On<string, string>("newMessage", NewMessage);
+            wpfChatForm1.adds();
             await connection.StartAsync();
-            await connection.InvokeAsync("SetName", logger.name);
+            await connection.InvokeAsync("SetName", myname);
             group = pass = await connection.InvokeAsync<string>("GetGroupId", logger.room_name);
             await connection.InvokeAsync("AddToGroup", group);
             port = await connection.InvokeAsync<int>("getport", group);
@@ -46,10 +45,6 @@ namespace CastReceiver
             sc = new StreamClient(port,"192.168.1.111");
             sc.Init();
             sc.ConnectToServer();
-        }
-        void NewMessage(string sender, string message)
-        {
-            messagesrtb.Text += "\n\n" + sender + "\n" + message;
         }
         void UpdateScreen(string ms, int r, int c, bool encrypted, int height, int width)
         {
@@ -64,31 +59,6 @@ namespace CastReceiver
                     g.DrawImage(img, c * img.Width, r * img.Height, re, GraphicsUnit.Pixel);
                 pb.Image = pic;
             }
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            if (messagetb.Text != string.Empty)
-            {
-                connection.InvokeAsync("newMessage", messagetb.Text);
-                messagetb.Text = "";
-            }
-        }
-
-        private void pbmic_Click(object sender, EventArgs e)
-        {
-            if (mic_muted) pbmic.Image = Resources.um;
-            else pbmic.Image = Resources.m;
-            mic_muted = !mic_muted;
-            sc.mictougle();
-        }
-
-        private void pbspeaker_Click(object sender, EventArgs e)
-        {
-            if (speaker_muted) pbspeaker.Image = Resources.su;
-            else pbspeaker.Image = Resources.sm;
-            speaker_muted = !speaker_muted;
-            sc.speakertougle();
         }
 
         public static string Decoded(string input)
