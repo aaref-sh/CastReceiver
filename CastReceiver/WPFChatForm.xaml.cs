@@ -15,16 +15,10 @@ namespace CastReceiver
     /// </summary>
     public partial class WPFChatForm : UserControl
     {
-        bool mic_muted = false;
+        bool mic_muted = true;
         bool speaker_muted = false;
-        public WPFChatForm()
-        {
-            InitializeComponent();
-        }
-        public void adds()
-        {
-            Form1.connection.On<string, string>("newMessage", NewMessage);
-        }
+        public WPFChatForm() => InitializeComponent();
+        public void adds() => Form1.connection.On<string, string>("newMessage", NewMessage);
         void NewMessage(string sender, string message)
         {
             Border b = new Border();
@@ -42,7 +36,7 @@ namespace CastReceiver
             sndr.Foreground = (sender == Form1.myname) ? Brushes.DarkGreen : Brushes.DarkGray;
             container.MouseDoubleClick += Container_MouseDoubleClick;
             TextBlock mesg = new TextBlock();
-            mesg.Text = message;
+            mesg.Text = Form1.Decoded(message);
             mesg.TextWrapping = TextWrapping.Wrap;
             mesg.FontSize = 16;
             mesg.FontFamily = new FontFamily("Times New Roman");
@@ -91,39 +85,26 @@ namespace CastReceiver
         {
             if (MessageTextBox.Text.Trim() != string.Empty)
             {
-                Form1.connection.InvokeAsync("newMessage", MessageTextBox.Text.Trim());
+                Form1.connection.InvokeAsync("newMessage", Form1.Decoded(MessageTextBox.Text.Trim()));
                 MessageTextBox.Text = "";
             }
         }
-        private void picker_Picked(object sender, Emoji.Wpf.EmojiPickedEventArgs e)
-        {
-            MessageTextBox.Text += e.Emoji;
-        }
+        private void picker_Picked(object sender, Emoji.Wpf.EmojiPickedEventArgs e) => MessageTextBox.Text += e.Emoji;
         public void MessageTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             picker.Focus();
             MessageTextBox.Focus();
             if (e.Key == Key.Enter && MessageTextBox.Text.Trim() != string.Empty)
             {
-                Form1.connection.InvokeAsync("newMessage", MessageTextBox.Text);
+                Form1.connection.InvokeAsync("newMessage", Form1.Decoded(MessageTextBox.Text.Trim()));
                 MessageTextBox.Text = "";
             }
         }
         public void MessageTextBox_TextChanged(object sender, EventArgs e)
         {
             if (MessageTextBox.Text.Trim() != string.Empty)
-            {
-                if (ia(MessageTextBox.Text[0]))
-                {
-                    //MessageTextBox.FlowDirection = FlowDirection.RightToLeft;
-                    MessageTextBox.TextAlignment = TextAlignment.Right;
-                }
-                else
-                {
-                    //MessageTextBox.FlowDirection = FlowDirection.LeftToRight;
-                    MessageTextBox.TextAlignment = TextAlignment.Left;
-                }
-            }
+                if (ia(MessageTextBox.Text[0]))MessageTextBox.FlowDirection = FlowDirection.RightToLeft;
+                else MessageTextBox.FlowDirection = FlowDirection.LeftToRight;
         }
         public void pbmic(Object sender,EventArgs e)
         {

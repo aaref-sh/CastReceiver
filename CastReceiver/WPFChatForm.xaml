@@ -10,7 +10,7 @@
     <DockPanel>
         <DockPanel Height="34" DockPanel.Dock="Bottom">
             <StackPanel DockPanel.Dock="Left" Width="16">
-                <Image x:Name="mic" Source="pack://siteoforigin:,,,/Resources/mu.png" MouseLeftButtonDown="pbmic" />
+                <Image x:Name="mic" Source="Resources/mm.png" MouseLeftButtonDown="pbmic" />
                 <Image x:Name="speaker" Source="pack://siteoforigin:,,,/Resources/su.png" MouseLeftButtonDown="pbspeaker" />
             </StackPanel>
             <Image x:Name="sendimg" DockPanel.Dock="Right"  MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="Resources/send.png" />

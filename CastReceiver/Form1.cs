@@ -22,7 +22,7 @@ namespace CastReceiver
         public Form1()
         {
             InitializeComponent();
-            pic = new Bitmap(1, 1);
+            pic = new Bitmap(1, 1,System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             myname = logger.name;
             ConfigSignalRConnection();
             FormClosing += (sender, e) => sc.ConnectToServer();
@@ -30,22 +30,24 @@ namespace CastReceiver
         async void ConfigSignalRConnection()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl("http://192.168.1.111:5000/CastHub")
+                .WithUrl("http://"+logger.URL+"/CastHub")
                 .WithAutomaticReconnect()
                 .Build();
             connection.On<string, int, int, bool, int, int>("UpdateScreen", UpdateScreen);
-            wpfChatForm1.adds();
             await connection.StartAsync();
             await connection.InvokeAsync("SetName", myname);
             group = pass = await connection.InvokeAsync<string>("GetGroupId", logger.room_name);
             await connection.InvokeAsync("AddToGroup", group);
             port = await connection.InvokeAsync<int>("getport", group);
             await connection.InvokeAsync("getscreen");
+            wpfChatForm1.adds();
             await connection.InvokeAsync("getMessages");
-            sc = new StreamClient(port,"192.168.1.111");
+            sc = new StreamClient(port,logger.URL);
             sc.Init();
             sc.ConnectToServer();
+            sc.mictougle();
         }
+
         void UpdateScreen(string ms, int r, int c, bool encrypted, int height, int width)
         {
             if (ms != null)

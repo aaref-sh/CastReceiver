@@ -29,11 +29,12 @@ namespace CastReceiver
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(logger));
             this.tbname = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.bnrefresh = new System.Windows.Forms.Button();
             this.session_list = new System.Windows.Forms.ListBox();
             this.login_btn = new System.Windows.Forms.Button();
-            this.bnrefresh = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +61,16 @@ namespace CastReceiver
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "الدخول لمحاضرة";
             // 
+            // bnrefresh
+            // 
+            this.bnrefresh.Location = new System.Drawing.Point(486, 17);
+            this.bnrefresh.Name = "bnrefresh";
+            this.bnrefresh.Size = new System.Drawing.Size(75, 27);
+            this.bnrefresh.TabIndex = 4;
+            this.bnrefresh.Text = "تحديث";
+            this.bnrefresh.UseVisualStyleBackColor = true;
+            this.bnrefresh.Click += new System.EventHandler(this.bnrefresh_Click);
+            // 
             // session_list
             // 
             this.session_list.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -82,16 +93,6 @@ namespace CastReceiver
             this.login_btn.UseVisualStyleBackColor = true;
             this.login_btn.Click += new System.EventHandler(this.login_btn_Click);
             // 
-            // bnrefresh
-            // 
-            this.bnrefresh.Location = new System.Drawing.Point(486, 17);
-            this.bnrefresh.Name = "bnrefresh";
-            this.bnrefresh.Size = new System.Drawing.Size(75, 27);
-            this.bnrefresh.TabIndex = 4;
-            this.bnrefresh.Text = "تحديث";
-            this.bnrefresh.UseVisualStyleBackColor = true;
-            this.bnrefresh.Click += new System.EventHandler(this.bnrefresh_Click);
-            // 
             // logger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
@@ -99,7 +100,10 @@ namespace CastReceiver
             this.ClientSize = new System.Drawing.Size(617, 350);
             this.Controls.Add(this.groupBox2);
             this.Font = new System.Drawing.Font("Times New Roman", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.MaximizeBox = false;
             this.Name = "logger";
             this.RightToLeftLayout = true;
             this.Text = "logger";

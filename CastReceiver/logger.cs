@@ -13,6 +13,7 @@ namespace CastReceiver
         public static string room_name;
         public static string name;
         public static Form1 form;
+        public static string URL = "192.168.1.111";
         public logger()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace CastReceiver
             {
                 using (WebClient client = new WebClient())
                 {
-                    byte[] response = client.UploadValues("http://192.168.1.111:5000/api/Rooms/get_rooms", new NameValueCollection() { });
+                    byte[] response = client.UploadValues("http://"+URL+"/api/Rooms/GetRooms", new NameValueCollection() { });
                     string result = Encoding.UTF8.GetString(response);
                     SessionList = Json.Decode<List<string>>(result);
                 }

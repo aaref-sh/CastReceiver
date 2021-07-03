@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo2.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DarrenLee.LiveStream">
       <HintPath>C:\Users\Muhammad\Desktop\DarrenLee.LiveStream.dll</HintPath>
@@ -274,6 +277,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="logo %282%29.ico" />
+    <Content Include="logo2.ico" />
     <Content Include="Resources\chatbg.jpg" />
     <Content Include="Resources\send.png" />
     <Content Include="Resources\mm.png" />
