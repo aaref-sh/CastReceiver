@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using Microsoft.AspNetCore.SignalR.Client;
 using TextBlock = Emoji.Wpf.TextBlock;
+using System.Security.Cryptography;
 
 namespace CastReceiver
 {
@@ -17,7 +18,18 @@ namespace CastReceiver
     {
         bool mic_muted = true;
         bool speaker_muted = false;
-        public WPFChatForm() => InitializeComponent();
+        public static byte[] key;
+        public WPFChatForm()
+        {
+            InitializeComponent();
+            mic.MouseLeftButtonDown += pbmic;
+            speaker.MouseLeftButtonDown += pbspeaker;
+            sendimg.MouseLeftButtonDown += Image_MouseLeftButtonDown;
+            MessageTextBox.KeyDown += MessageTextBox_KeyDown;
+            MessageTextBox.TextChanged += MessageTextBox_TextChanged;
+            picker.Picked += picker_Picked;
+        }
+
         public void adds() => Form1.connection.On<string, string>("newMessage", NewMessage);
         void NewMessage(string sender, string message)
         {
@@ -36,7 +48,7 @@ namespace CastReceiver
             sndr.Foreground = (sender == Form1.myname) ? Brushes.DarkGreen : Brushes.DarkGray;
             container.MouseDoubleClick += Container_MouseDoubleClick;
             TextBlock mesg = new TextBlock();
-            mesg.Text = Form1.Decoded(message);
+            mesg.Text = DESDecrypt(message);
             mesg.TextWrapping = TextWrapping.Wrap;
             mesg.FontSize = 16;
             mesg.FontFamily = new FontFamily("Times New Roman");
@@ -56,6 +68,31 @@ namespace CastReceiver
             scrollViewer.ScrollToEnd();
         }
 
+        static string DESDecrypt(string crypted)
+        {
+            DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
+            MemoryStream memoryStream = new MemoryStream(Convert.FromBase64String(crypted));
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateDecryptor(key, key), CryptoStreamMode.Read);
+            StreamReader reader = new StreamReader(cryptoStream);
+            return reader.ReadToEnd();
+        }
+        static string DESEncrypt(string original)
+        {
+            DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                CryptoStream cryptoStream = new CryptoStream(memoryStream, cryptoProvider.CreateEncryptor(key, key), CryptoStreamMode.Write);
+                using (StreamWriter writer = new StreamWriter(cryptoStream))
+                {
+                    writer.Write(original);
+                    writer.Flush();
+                    cryptoStream.FlushFinalBlock();
+                    writer.Flush();
+                    cryptoProvider.Dispose();
+                    return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
+                }
+            }
+        }
         private void Container_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             try
@@ -67,11 +104,10 @@ namespace CastReceiver
             }
             catch { }
         }
-        async void reset(Object sender, string text)
+        async void reset(object sender, string text)
         {
             await System.Threading.Tasks.Task.Delay(500).ContinueWith(_ => { });
             (((sender as Frame).Content as StackPanel).Children[1] as TextBlock).Text = text;
-
         }
         public static bool ia(char glyph)
         {
@@ -85,7 +121,7 @@ namespace CastReceiver
         {
             if (MessageTextBox.Text.Trim() != string.Empty)
             {
-                Form1.connection.InvokeAsync("newMessage", Form1.Decoded(MessageTextBox.Text.Trim()));
+                Form1.connection.SendAsync("newMessage", DESEncrypt(MessageTextBox.Text.Trim()));
                 MessageTextBox.Text = "";
             }
         }
@@ -96,27 +132,28 @@ namespace CastReceiver
             MessageTextBox.Focus();
             if (e.Key == Key.Enter && MessageTextBox.Text.Trim() != string.Empty)
             {
-                Form1.connection.InvokeAsync("newMessage", Form1.Decoded(MessageTextBox.Text.Trim()));
+                Form1.connection.SendAsync("newMessage", DESEncrypt(MessageTextBox.Text.Trim()));
                 MessageTextBox.Text = "";
             }
         }
         public void MessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (MessageTextBox.Text.Trim() != string.Empty)
+            if (string.IsNullOrWhiteSpace(MessageTextBox.Text))
                 if (ia(MessageTextBox.Text[0]))MessageTextBox.FlowDirection = FlowDirection.RightToLeft;
                 else MessageTextBox.FlowDirection = FlowDirection.LeftToRight;
         }
-        public void pbmic(Object sender,EventArgs e)
+        public void pbmic(object sender,EventArgs e)
         {
-            mic.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resources/" +(mic_muted?"mu.png":"mm.png")));
+            mic.Source = new BitmapImage(new Uri(path+"/Resources/" +(mic_muted?"mu.png":"mm.png")));
             mic_muted = !mic_muted;
             Form1.sc.mictougle();
         }
-        public void pbspeaker(Object sender,EventArgs e)
+        public void pbspeaker(object sender,EventArgs e)
         {
-            speaker.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resources/" +(speaker_muted?"su.png":"sm.png")));
+            speaker.Source = new BitmapImage(new Uri(path+"/Resources/" +(speaker_muted?"su.png":"sm.png")));
             speaker_muted = !speaker_muted;
             Form1.sc.speakertougle();
         }
+        string path = AppDomain.CurrentDomain.BaseDirectory;
     }
 }

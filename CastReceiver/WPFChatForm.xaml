@@ -10,14 +10,14 @@
     <DockPanel>
         <DockPanel Height="34" DockPanel.Dock="Bottom">
             <StackPanel DockPanel.Dock="Left" Width="16">
-                <Image x:Name="mic" Source="Resources/mm.png" MouseLeftButtonDown="pbmic" />
-                <Image x:Name="speaker" Source="pack://siteoforigin:,,,/Resources/su.png" MouseLeftButtonDown="pbspeaker" />
+                <Image x:Name="mic" Source="Resources/mm.png"  />
+                <Image x:Name="speaker" Source="Resources/su.png" />
             </StackPanel>
-            <Image x:Name="sendimg" DockPanel.Dock="Right"  MouseLeftButtonDown="Image_MouseLeftButtonDown" Source="Resources/send.png" />
-            <emoji:Picker x:Name="picker" Picked="picker_Picked" IsManipulationEnabled="True"/>
+            <Image x:Name="sendimg" DockPanel.Dock="Right"  Source="Resources/send.png" />
+            <emoji:Picker x:Name="picker" IsManipulationEnabled="True"/>
             <StackPanel Orientation="Vertical">
                 <!---->
-                <emoji:TextBox x:Name="MessageTextBox" KeyDown="MessageTextBox_KeyDown" TextChanged="MessageTextBox_TextChanged" FontSize="16" FontFamily="Times New Roman" Height="35"/>
+                <emoji:TextBox x:Name="MessageTextBox" FontSize="16" FontFamily="Times New Roman" Height="35"/>
             </StackPanel>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="scrollViewer">

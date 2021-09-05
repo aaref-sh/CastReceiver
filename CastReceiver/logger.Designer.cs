@@ -31,41 +31,29 @@ namespace CastReceiver
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(logger));
             this.tbname = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.bnrefresh = new System.Windows.Forms.Button();
             this.session_list = new System.Windows.Forms.ListBox();
             this.login_btn = new System.Windows.Forms.Button();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbname
             // 
-            this.tbname.Location = new System.Drawing.Point(117, 266);
-            this.tbname.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.tbname.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbname.Location = new System.Drawing.Point(301, 13);
+            this.tbname.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.tbname.Name = "tbname";
-            this.tbname.Size = new System.Drawing.Size(444, 30);
+            this.tbname.Size = new System.Drawing.Size(131, 19);
             this.tbname.TabIndex = 2;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.bnrefresh);
-            this.groupBox2.Controls.Add(this.session_list);
-            this.groupBox2.Controls.Add(this.tbname);
-            this.groupBox2.Controls.Add(this.login_btn);
-            this.groupBox2.Location = new System.Drawing.Point(22, 20);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 5, 6, 5);
-            this.groupBox2.Size = new System.Drawing.Size(570, 312);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "الدخول لمحاضرة";
             // 
             // bnrefresh
             // 
-            this.bnrefresh.Location = new System.Drawing.Point(486, 17);
+            this.bnrefresh.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.bnrefresh.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.bnrefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.bnrefresh.Location = new System.Drawing.Point(229, 12);
+            this.bnrefresh.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.bnrefresh.Name = "bnrefresh";
-            this.bnrefresh.Size = new System.Drawing.Size(75, 27);
+            this.bnrefresh.Size = new System.Drawing.Size(61, 26);
             this.bnrefresh.TabIndex = 4;
             this.bnrefresh.Text = "تحديث";
             this.bnrefresh.UseVisualStyleBackColor = true;
@@ -73,21 +61,25 @@ namespace CastReceiver
             // 
             // session_list
             // 
+            this.session_list.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.session_list.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.session_list.FormattingEnabled = true;
             this.session_list.ItemHeight = 23;
-            this.session_list.Location = new System.Drawing.Point(13, 44);
-            this.session_list.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.session_list.Location = new System.Drawing.Point(13, 13);
+            this.session_list.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.session_list.Name = "session_list";
-            this.session_list.Size = new System.Drawing.Size(548, 211);
+            this.session_list.Size = new System.Drawing.Size(277, 207);
             this.session_list.TabIndex = 3;
             // 
             // login_btn
             // 
-            this.login_btn.Location = new System.Drawing.Point(13, 265);
-            this.login_btn.Margin = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.login_btn.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.login_btn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Gray;
+            this.login_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.login_btn.Location = new System.Drawing.Point(301, 41);
+            this.login_btn.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.login_btn.Name = "login_btn";
-            this.login_btn.Size = new System.Drawing.Size(91, 31);
+            this.login_btn.Size = new System.Drawing.Size(131, 27);
             this.login_btn.TabIndex = 2;
             this.login_btn.Text = "دخول";
             this.login_btn.UseVisualStyleBackColor = true;
@@ -95,27 +87,28 @@ namespace CastReceiver
             // 
             // logger
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 350);
-            this.Controls.Add(this.groupBox2);
-            this.Font = new System.Drawing.Font("Times New Roman", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClientSize = new System.Drawing.Size(442, 233);
+            this.Controls.Add(this.bnrefresh);
+            this.Controls.Add(this.session_list);
+            this.Controls.Add(this.tbname);
+            this.Controls.Add(this.login_btn);
+            this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MaximizeBox = false;
             this.Name = "logger";
             this.RightToLeftLayout = true;
             this.Text = "logger";
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.TextBox tbname;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ListBox session_list;
         private System.Windows.Forms.Button login_btn;
         private System.Windows.Forms.Button bnrefresh;
