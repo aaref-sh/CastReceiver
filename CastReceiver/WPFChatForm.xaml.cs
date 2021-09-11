@@ -138,7 +138,7 @@ namespace CastReceiver
         }
         public void MessageTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(MessageTextBox.Text))
+            if (!string.IsNullOrWhiteSpace(MessageTextBox.Text))
                 if (ia(MessageTextBox.Text[0]))MessageTextBox.FlowDirection = FlowDirection.RightToLeft;
                 else MessageTextBox.FlowDirection = FlowDirection.LeftToRight;
         }
