@@ -28,7 +28,7 @@ namespace CastReceiver
         }
         async void ConfigSignalRConnection()
         {
-            connection = new HubConnectionBuilder().WithUrl("http://"+logger.URL+"/CastHub")
+            connection = new HubConnectionBuilder().WithUrl("http://"+logger.URL+":5000/CastHub")
                 .WithAutomaticReconnect().Build();
             connection.On<string, int, int, bool, int, int>("UpdateScreen", UpdateScreen);
             await connection.StartAsync();

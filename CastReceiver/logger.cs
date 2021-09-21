@@ -25,7 +25,7 @@ namespace CastReceiver
             {
                 using (WebClient client = new WebClient())
                 {
-                    byte[] response = client.UploadValues("http://"+URL+"/api/Rooms/GetRooms", new NameValueCollection() { });
+                    byte[] response = client.UploadValues("http://"+URL+":5000/api/Rooms/GetRooms", new NameValueCollection() { });
                     string result = Encoding.UTF8.GetString(response);
                     SessionList = Json.Decode<List<string>>(result);
                 }
